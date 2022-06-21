@@ -155,7 +155,7 @@ RSpec.describe Grid do
     end
 
     context 'with two neighbours and empty' do
-      include_examples 'next', 'does not born',
+      include_examples 'next', 'is not born',
         [
           [false, false, false, true, false],
           [true, false, false, false, true],
