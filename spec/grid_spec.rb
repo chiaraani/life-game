@@ -163,4 +163,38 @@ RSpec.describe Grid do
         ], false
     end
   end
+
+  describe '#next_phase' do
+    let(:phase0) do
+      [
+        [false, false, false, true, false],
+        [true, false, false, false, true],
+        [false, true, false, true, true],
+        [true, false, false, true, false],
+        [true, true, false, true, false]
+      ]
+    end
+
+    let(:phase1) do
+      [
+        [false, false, false, false, false],
+        [false, false, true, false, true],
+        [true, true, true, true, true],
+        [true, false, false, true, false],
+        [true, true, true, false, false]
+      ]
+    end
+
+    it 'adds 1 to phase variable' do
+      expect { grid.next_phase }.to change(grid, :phase).by(1)
+    end
+
+    it 'changes cells to next phase' do
+      rows = 5
+      columns = 5
+      grid.cells = phase0
+      grid.next_phase
+      expect(grid.cells).to(match(phase1))
+    end
+  end
 end

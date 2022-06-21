@@ -4,7 +4,7 @@ require 'rainbow'
 
 # Grid of cells that die, live and reproduce
 class Grid
-  attr_accessor :cells
+  attr_accessor :cells, :phase
 
   def initialize(rows, columns)
     @rows = rows
@@ -46,11 +46,20 @@ class Grid
     end
   end
 
+  def next_phase
+    next_cells = (0..@rows - 1).map do |row|
+      (0..@columns - 1).map { |column| next? row, column }
+    end
+    @cells = next_cells
+    @phase += 1
+  end
+
   private
 
   def generate_cells
     # True means live cell. False means empty or dead.
     @cells = Array.new(@rows) { Array.new(@columns) { [true, false].sample } }
+    @phase = 0
   end
 
   def live_neighbour_count_of(row, column)
