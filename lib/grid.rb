@@ -4,7 +4,7 @@ require 'rainbow'
 
 # Grid of cells that die, live and reproduce
 class Grid
-  attr_reader :cells
+  attr_accessor :cells
 
   def initialize(rows, columns)
     @rows = rows
@@ -21,7 +21,7 @@ class Grid
     end
   end
 
-  def neighbours_of(row, column)
+  def neighbours_coordinates_of(row, column)
     neighbours = []
     (row - 1..row + 1).each do |neighbour_row|
       (column - 1..column + 1).each do |neighbour_column|
@@ -35,10 +35,27 @@ class Grid
     neighbours
   end
 
+  def next?(row, column)
+    cell = @cells[row][column]
+    neighbour_count = live_neighbour_count_of(row, column)
+
+    if cell
+      neighbour_count > 1 && neighbour_count < 4
+    else
+      neighbour_count == 3
+    end
+  end
+
   private
 
   def generate_cells
     # True means live cell. False means empty or dead.
     @cells = Array.new(@rows) { Array.new(@columns) { [true, false].sample } }
+  end
+
+  def live_neighbour_count_of(row, column)
+    neighbours_coordinates_of(row, column).count do |neighbour|
+      @cells[neighbour[0]][neighbour[1]]
+    end
   end
 end
