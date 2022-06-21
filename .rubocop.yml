@@ -5,3 +5,6 @@ AllCops:
 
 Naming/MethodName:
   AllowedPatterns: [Rainbow]
+
+Layout/ArgumentAlignment: 
+  Enabled: false

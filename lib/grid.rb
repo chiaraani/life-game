@@ -21,6 +21,20 @@ class Grid
     end
   end
 
+  def neighbours_of(row, column)
+    neighbours = []
+    (row - 1..row + 1).each do |neighbour_row|
+      (column - 1..column + 1).each do |neighbour_column|
+        next unless (0..@rows - 1).include? neighbour_row
+        next unless (0..@columns - 1).include? neighbour_column
+        next if neighbour_row == row && neighbour_column == column
+
+        neighbours << [neighbour_row, neighbour_column]
+      end
+    end
+    neighbours
+  end
+
   private
 
   def generate_cells
