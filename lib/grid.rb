@@ -6,7 +6,9 @@ require 'rainbow'
 class Grid
   attr_reader :cells
 
-  def initialize
+  def initialize(rows, columns)
+    @rows = rows
+    @columns = columns
     generate_cells
   end
 
@@ -23,6 +25,6 @@ class Grid
 
   def generate_cells
     # True means live cell. False means empty or dead.
-    @cells = Array.new(50) { Array.new(50) { [true, false].sample } }
+    @cells = Array.new(@rows) { Array.new(@columns) { [true, false].sample } }
   end
 end
