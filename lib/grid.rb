@@ -45,7 +45,7 @@ class Grid
 
   def play
     print
-    @phase.times do
+    @phases.times do
       sleep(@phase_duration)
       next_phase
       print
