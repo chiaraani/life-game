@@ -45,7 +45,7 @@ class Grid
 
   def play
     print
-    1.upto(@phases) do
+    @phase.times do
       sleep(@phase_duration)
       next_phase
       print
@@ -61,6 +61,6 @@ class Grid
       end
     end
 
-    @phase = 0
+    @phase = 1
   end
 end
