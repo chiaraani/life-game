@@ -8,7 +8,7 @@ class Grid
     attr_accessor :config
   end
 
-  self.config = { default: { rows: 50, columns: 50, phase_duration: 1, phases: 10 } }
+  self.config = { default: { rows: 50, columns: 50, phase_duration: 1, phases: 100 } }
 
   attr_reader :cells, :phase, :rows, :columns
 
@@ -41,6 +41,15 @@ class Grid
   def next_phase
     self.cell_lives = cells.map { |row| row.map(&:next?) }
     @phase += 1
+  end
+
+  def play
+    print
+    1.upto(@phases) do
+      sleep(@phase_duration)
+      next_phase
+      print
+    end
   end
 
   private
