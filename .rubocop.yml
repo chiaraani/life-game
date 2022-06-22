@@ -8,3 +8,6 @@ Naming/MethodName:
 
 Layout/ArgumentAlignment: 
   Enabled: false
+
+Lint/UselessAssignment:
+  Enabled: false

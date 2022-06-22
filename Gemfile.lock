@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    byebug (11.1.3)
     coderay (1.1.3)
     diff-lcs (1.5.0)
     ffi (1.15.5)
@@ -79,12 +80,16 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  byebug
   guard-rspec
   guard-rubocop
   rainbow
   rspec
   rubocop
   rubocop-rspec
+
+RUBY VERSION
+   ruby 3.0.0p0
 
 BUNDLED WITH
    2.2.3

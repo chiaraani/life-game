@@ -15,4 +15,7 @@ group :test, :development do
   gem 'guard-rubocop'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
+
+  # Debugging
+  gem 'byebug'
 end

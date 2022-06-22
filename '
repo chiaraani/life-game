@@ -39,7 +39,8 @@ class Grid
   end
 
   def next_phase
-    self.cell_lives = cells.map { |row| row.map(&:next?) }
+    @next_lives = cells.map { |row| row.map(&:next?) }
+    cell_lives = @next_lives
     @phase += 1
   end
 
