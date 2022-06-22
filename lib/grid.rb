@@ -4,11 +4,18 @@ require 'rainbow'
 
 # Grid of cells that die, live and reproduce
 class Grid
+  class << self
+    attr_accessor :config
+
+    @config = { default: { rows: 50, columns: 50, phase_duration: 1, phases: 10 } }
+  end
+
   attr_accessor :cells, :phase
 
-  def initialize(rows, columns)
-    @rows = rows
-    @columns = columns
+  def initialize(**args)
+    args.merge(Grid.config[:default], args).each_pair do |key, value|
+      instance_variable_set("@#{key}", value)
+    end
     generate_cells
   end
 
@@ -19,6 +26,8 @@ class Grid
       line = row.map { |cell| cell ? '⦿' : ' ' }.join
       puts Rainbow(line).indianred.bright
     end
+
+    puts "Phase #{@phase}"
   end
 
   def neighbours_coordinates_of(row, column)

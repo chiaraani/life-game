@@ -5,12 +5,36 @@ require 'rainbow'
 require_relative '../lib/grid'
 
 RSpec.describe Grid do
-  rows = 10
-  columns = 5
+  described_class.config = {
+    default: { rows: 5, columns: 5, phase_duration: 0.01, phases: 2 }
+  }
 
-  subject(:grid) { described_class.new(rows, columns) }
+  subject(:grid) { described_class.new }
+
+  let(:phases) do
+    [
+      [
+        [false, false, false, true, false],
+        [true, false, false, false, true],
+        [false, true, false, true, true],
+        [true, false, false, true, false],
+        [true, true, false, true, false]
+      ],
+      [
+        [false, false, false, false, false],
+        [false, false, true, false, true],
+        [true, true, true, true, true],
+        [true, false, false, true, false],
+        [true, true, true, false, false]
+      ]
+    ]
+  end
 
   describe 'cells' do
+    rows = 10
+    columns = 5
+    subject(:grid) { described_class.new(rows: rows, columns: columns) }
+
     it "has #{rows} rows" do
       expect(grid.cells.count).to equal rows
     end
@@ -30,16 +54,25 @@ RSpec.describe Grid do
 
   describe '#print' do
     it 'prints live cells as ⦿ and dead as a space' do
-      output = grid.cells.map do |row|
+      cell_characters = grid.cells.map do |row|
         "#{Rainbow(row.map { |cell| cell ? '⦿' : ' ' }.join)
           .indianred.bright}\n"
       end.join
 
-      expect { grid.print }.to output(output).to_stdout
+      expect { grid.print }.to output(a_string_starting_with(cell_characters)).to_stdout
+    end
+
+    it 'prints current phase' do
+      phase_description = "Phase #{grid.phase}\n"
+      expect { grid.print }.to output(a_string_ending_with(phase_description)).to_stdout
     end
   end
 
   describe '#neighbours_coordinates_of' do
+    rows = 10
+    columns = 10
+    subject(:grid) { described_class.new(rows: rows, columns: columns) }
+
     shared_examples 'neighbours coordinates of' do |cell, neighbours|
       it 'returns coordinates of neighbours' do
         expect(grid.neighbours_coordinates_of(*cell)).to match(neighbours.sort)
@@ -81,8 +114,7 @@ RSpec.describe Grid do
   end
 
   describe '#next?' do
-    let(:rows) { 3 }
-    let(:columns) { 5 }
+    subject(:grid) { described_class.new(rows: 3, columns: 5) }
 
     shared_examples 'next' do |description, cells, will_live|
       it description do
@@ -165,36 +197,14 @@ RSpec.describe Grid do
   end
 
   describe '#next_phase' do
-    let(:phase0) do
-      [
-        [false, false, false, true, false],
-        [true, false, false, false, true],
-        [false, true, false, true, true],
-        [true, false, false, true, false],
-        [true, true, false, true, false]
-      ]
-    end
-
-    let(:phase1) do
-      [
-        [false, false, false, false, false],
-        [false, false, true, false, true],
-        [true, true, true, true, true],
-        [true, false, false, true, false],
-        [true, true, true, false, false]
-      ]
-    end
-
     it 'adds 1 to phase variable' do
       expect { grid.next_phase }.to change(grid, :phase).by(1)
     end
 
     it 'changes cells to next phase' do
-      rows = 5
-      columns = 5
-      grid.cells = phase0
+      grid.cells = phases[0]
       grid.next_phase
-      expect(grid.cells).to(match(phase1))
+      expect(grid.cells).to(match(phases[1]))
     end
   end
 end
