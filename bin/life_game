@@ -1,3 +1,2 @@
 #!/usr/bin/env ruby
-require_relative '../lib/grid'
-Grid.new.play
+require_relative '../lib/setup'
