@@ -20,7 +20,11 @@ class Cell
   end
 
   def neighbours_coordinates
-    @neighbours_coordinates ||= neighbours_in_grid - [[row, column]]
+    @neighbours_coordinates ||=
+      possible_neighbours.select do |neighbour|
+        (0..grid.rows - 1).include?(neighbour[0]) &&
+          (0..grid.columns - 1).include?(neighbour[1])
+      end - [[row, column]]
   end
 
   def next?
@@ -41,13 +45,6 @@ class Cell
         [neighbour_row, neighbour_column]
       end
     end.flatten 1
-  end
-
-  def neighbours_in_grid
-    possible_neighbours.select do |neighbour|
-      (0..grid.rows - 1).include?(neighbour[0]) &&
-        (0..grid.columns - 1).include?(neighbour[1])
-    end
   end
 
   def live_neighbour_count

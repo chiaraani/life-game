@@ -1,7 +1,8 @@
 require: rubocop-rspec
 
 AllCops:
-    NewCops: enable
+  NewCops: enable
+  Exclude: ['bin/life_game']
 
 Naming/MethodName:
   AllowedPatterns: [Rainbow]
