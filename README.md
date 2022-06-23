@@ -1,1 +1,5 @@
-# life-game
+# Life game
+Execute
+```
+$ bin/life_game
+```
