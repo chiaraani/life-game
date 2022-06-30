@@ -3,12 +3,16 @@
 require_relative 'grid'
 
 # Setup asks client for config variables
-module Setup
+class Setup
+  def self.gets
+    $stdin.gets
+  end
+
   def self.ask(variable, question)
     print "#{question} (#{Grid.config[:default][variable]})"
-    answer = $stdin.gets
+    answer = gets
 
-    @config[variable] = answer.to_i unless answer.strip.empty?
+    @config[variable] = answer.to_f unless answer.strip.empty?
   end
 
   def self.ask_for_config
@@ -22,5 +26,3 @@ module Setup
     Grid.new(**@config).play
   end
 end
-
-Setup.ask_for_config
