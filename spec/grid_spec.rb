@@ -9,7 +9,7 @@ RSpec.describe Grid do
     default: { rows: 5, columns: 5, phase_duration: 0.01, phases: 2 }
   }
 
-  subject(:grid) { described_class.new }
+  let(:grid) { described_class.new }
 
   let(:phases) do
     [
@@ -83,6 +83,20 @@ RSpec.describe Grid do
       grid.cell_lives = phases[0]
       grid.next_phase
       expect(grid.cell_lives).to(eq(phases[1]))
+    end
+  end
+
+  describe '#play' do
+    subject(:play) { grid.play }
+
+    it 'calls #print' do
+      allow(grid).to receive(:print)
+      play
+      expect(grid).to have_received(:print).twice
+    end
+
+    it 'gos onto next phase' do
+      expect { play }.to change(grid, :phase).by(1)
     end
   end
 end
